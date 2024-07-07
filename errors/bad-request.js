@@ -4,7 +4,8 @@ const { BaseAPIError } = require("./base.js");
 
 class BadRequestError extends BaseAPIError {
   constructor(message, status) {
-    super(message || "Client error", status || "Bad Request");
+    super(message || "Client error");
+    this.status = status || "Bad Request";
     this.statusCode = StatusCodes.BAD_REQUEST;
   }
 }

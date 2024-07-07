@@ -4,7 +4,8 @@ const { BaseAPIError } = require("./base.js");
 
 class ResourceNotFoundError extends BaseAPIError {
   constructor(message, status) {
-    super(message, status || "Resource Not Found");
+    super(message);
+    this.status = status || "Resource Not Found";
     this.statusCode = StatusCodes.NOT_FOUND;
   }
 }
