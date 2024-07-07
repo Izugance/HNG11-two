@@ -41,8 +41,8 @@ const register = asyncHandler(async (req, res, next) => {
         phone,
       });
 
-      payload.data.user = user.toJSON();
       payload.data.accessToken = user.genJWT();
+      payload.data.user = user.toJSON();
 
       await user.createOrganisation({
         name: firstName + "'s " + "Organisation",
@@ -63,7 +63,10 @@ const register = asyncHandler(async (req, res, next) => {
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ where: { email } });
+  const user = await User.findOne({
+    where: { email },
+    attributes: { exclude: ["password"] },
+  });
   if (!user && (await user.verifyPassword(password.trim()))) {
     throw new AuthError(null, "Bad Request");
   }
