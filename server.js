@@ -32,7 +32,7 @@ function initRoutes() {
   app.use(apiRoot + "/users", userRouter);
   app.use(apiRoot + "/organisations", organisationRouter);
   app.get(
-    apiRoot + "/",
+    "/",
     asyncHandler(async (req, res) => {
       res.status(StatusCodes.OK).send("HNG11 stage 2 API");
     })
@@ -41,7 +41,6 @@ function initRoutes() {
 
 // -----Post-route middleware-----
 function initPostRouteMiddleware() {
-  // DO ME!!!
   app.use(controllerErrorHandler);
   app.use(endpoint404Handler);
 }
