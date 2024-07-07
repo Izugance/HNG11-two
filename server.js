@@ -3,6 +3,9 @@ const http = require("http");
 require("dotenv").config();
 const asyncHandler = require("express-async-handler");
 const express = require("express");
+const cors = require("cors");
+const helmet = require("helmet");
+const xssClean = require("xss-clean");
 
 const { sequelize, models } = require("./models");
 const {
@@ -14,13 +17,14 @@ const app = express();
 
 // -----Pre-route middleware-----
 function initPreRouteMiddleware() {
-  // DO ME!!!
   app.use(express.json());
+  app.use(cors());
+  app.use(helmet());
+  app.use(xssClean());
 }
 
 // -----Routes-----
 function initRoutes() {
-  // DO ME!!!
   const { authRouter, userRouter, organisationRouter } = require("./routes");
 
   const apiRoot = "/api";
