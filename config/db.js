@@ -3,7 +3,7 @@ const { Sequelize } = require("sequelize");
 
 const connectDB = (options) => {
   try {
-    const sequelize = new Sequelize(process.env.DB_URI, {
+    const sequelize = new Sequelize(process.env.POSTGRES_URL, {
       logging: false, // Don't log queries.
     });
     if (options && options.verbose) {
