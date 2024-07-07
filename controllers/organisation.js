@@ -77,7 +77,7 @@ const createOrganisation = asyncHandler(async (req, res) => {
 /** POST */
 const addUserToOrganisation = asyncHandler(async (req, res) => {
   try {
-    const organisation = await Organisation.findByPk(req.query.orgId);
+    const organisation = await Organisation.findByPk(req.params.orgId);
     organisation.addUser({ userId: req.body.userId });
   } catch (err) {
     throw new BadRequestError();
