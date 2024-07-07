@@ -7,7 +7,7 @@ const { ResourceNotFoundError } = require("../errors");
 const User = models.User;
 
 const getUserById = asyncHandler(async (req, res) => {
-  const user = await User.findByPk(req.query.id, {
+  const user = await User.findOne(req.params.id, {
     attributes: { exclude: ["password"] },
   });
   if (!user) {
