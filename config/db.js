@@ -5,6 +5,7 @@ const connectDB = (options) => {
   try {
     const sequelize = new Sequelize(process.env.POSTGRES_URL, {
       logging: false, // Don't log queries.
+      dialectModule: require("pg"),
     });
     if (options && options.verbose) {
       console.log("Connected to the database");
