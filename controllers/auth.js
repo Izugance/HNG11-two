@@ -33,7 +33,7 @@ const register = asyncHandler(async (req, res, next) => {
 
   try {
     await sequelize.transaction(async (t) => {
-      const user = await User.create({
+      let user = await User.create({
         email,
         firstName,
         lastName,
@@ -42,7 +42,13 @@ const register = asyncHandler(async (req, res, next) => {
       });
 
       payload.data.accessToken = user.genJWT();
-      payload.data.user = user.toJSON();
+      payload.data.user = {
+        userId: user.userId,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        phone: user.phone,
+      };
 
       await user.createOrganisation({
         name: firstName + "'s " + "Organisation",
@@ -62,12 +68,14 @@ const register = asyncHandler(async (req, res, next) => {
 /** POST */
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+  if (!(email && password)) {
+    throw new BadRequestError("Please provide email and password");
+  }
 
   const user = await User.findOne({
-    where: { email },
-    attributes: { exclude: ["password"] },
+    where: { email: email.toLowerCase().trim() },
   });
-  if (!user || (await user.verifyPassword(password.trim()))) {
+  if (!user || !(await user.verifyPassword(password.trim()))) {
     throw new AuthError(null, "Bad Request");
   }
 
@@ -76,7 +84,13 @@ const login = asyncHandler(async (req, res) => {
     message: "Login Successful",
     data: {
       accessToken: await user.genJWT(),
-      user: user.toJSON(),
+      user: {
+        userId: user.userId,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        phone: user.phone,
+      },
     },
   };
   res.status(StatusCodes.OK).json(payload);

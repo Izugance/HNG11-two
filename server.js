@@ -51,8 +51,8 @@ const server = http.createServer(app);
 
 async function serve() {
   try {
-    // await sequelize.sync({ force: true, logging: false });
-    await sequelize.sync({ logging: false });
+    await sequelize.sync({ force: true, logging: false });
+    // await sequelize.sync({ logging: false });
     console.log("Models synchronized");
     initPreRouteMiddleware();
     initRoutes();
