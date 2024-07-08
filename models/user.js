@@ -12,7 +12,6 @@ class User extends Model {
       }
     );
   }
-
   async verifyPassword(password) {
     return await bcrypt.compare(password, this.password);
   }
@@ -52,13 +51,25 @@ function initUser(sequelize, DataTypes) {
         // must not be null
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
       },
       phone: {
         type: DataTypes.STRING,
         // allowNull: false
       },
     },
-    { sequelize, timestamps: false }
+    {
+      sequelize,
+      timestamps: false,
+      hooks: {
+        beforeSave: async (user, options) => {
+          const salt = await bcrypt.genSalt();
+          user.password = await bcrypt.hash(user.password, salt);
+        },
+      },
+    }
   );
 
   User.associate = function (models) {
