@@ -21,7 +21,7 @@ function initOrganisation(sequelize, DataTypes) {
         type: DataTypes.STRING,
       },
     },
-    {}
+    { timestamps: false }
   );
 
   Organisation.associate = function (models) {
