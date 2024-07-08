@@ -67,7 +67,7 @@ const login = asyncHandler(async (req, res) => {
     where: { email },
     attributes: { exclude: ["password"] },
   });
-  if (!user && (await user.verifyPassword(password.trim()))) {
+  if (!user || (await user.verifyPassword(password.trim()))) {
     throw new AuthError(null, "Bad Request");
   }
 
