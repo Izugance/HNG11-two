@@ -59,7 +59,7 @@ const createOrganisation = asyncHandler(async (req, res) => {
   let organisation;
   try {
     organisation = await Organisation.create({
-      name: req.user.firstName + "'s" + "Organisation",
+      name: req.body.name || req.user.firstName + "'s " + "Organisation",
       description: req.body.description,
     });
   } catch (err) {
