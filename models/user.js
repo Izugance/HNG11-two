@@ -1,5 +1,5 @@
 const { DataTypes, Model } = require("sequelize");
-const { bcrypt } = require("bcrypt");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 class User extends Model {
