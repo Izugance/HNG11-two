@@ -47,13 +47,11 @@ const getOrganisation = asyncHandler(async (req, res) => {
     throw new ResourceNotFoundError("Resource not found", "Client error");
   }
 
-  console.log(organisation[0].toJSON());
   const payload = {
     status: "success",
     message: "Organisation Found",
-    data: organisation.toJSON(),
+    data: organisation[0].toJSON(),
   };
-  console.log(payload);
   res.status(StatusCodes.OK).json(payload);
 });
 
