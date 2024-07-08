@@ -36,21 +36,24 @@ const getUserOrganisations = asyncHandler(async (req, res) => {
 
 /** GET */
 const getOrganisation = asyncHandler(async (req, res) => {
-  const user = await User.findByPk(req.user.userId, { attributes: ["userId"] });
-  const organisation = await user.getOrganisation({
+  const user = await User.findByPk(req.user.userId);
+  const organisation = await user.getOrganisations({
     where: {
-      orgId: req.query.orgId,
+      orgId: req.params.orgId,
     },
+    joinTableAttributes: [],
   });
   if (!organisation) {
     throw new ResourceNotFoundError("Resource not found", "Client error");
   }
 
+  console.log(organisation[0].toJSON());
   const payload = {
     status: "success",
     message: "Organisation Found",
     data: organisation.toJSON(),
   };
+  console.log(payload);
   res.status(StatusCodes.OK).json(payload);
 });
 
